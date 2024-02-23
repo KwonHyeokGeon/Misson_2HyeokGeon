@@ -5,14 +5,19 @@ import lombok.Getter;
 
 @Getter
 @Entity
-public class Mall {
+public class UsedProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String introduce;
-    private MallType mallType;
+    private String explanation;
+    @Lob
+    private byte[] thumbnail;
+    private int minPrice;
+    @Enumerated(EnumType.STRING)
+    private UsedProductStatus status;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 }
