@@ -7,7 +7,7 @@
 <details>
 <summary><strong>ERD</strong></summary>
 <div markdown="1"> 
-  <img alt="image" src="https://github.com/KwonHyeokGeon/Misson_hyeokgeon/blob/main/src/main/resources/static/images/erd.png">
+  <img alt="image" src="https://github.com/KwonHyeokGeon/Misson_2HyeokGeon/blob/main/src/main/resources/static/erd.png">
 </div>
 </details>
 

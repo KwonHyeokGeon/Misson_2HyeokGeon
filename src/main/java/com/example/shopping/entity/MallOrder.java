@@ -14,6 +14,7 @@ public class MallOrder {
     private int stock;
     private int price;
     private LocalDateTime paymentTime;
+    @Enumerated(EnumType.STRING)
     private MallOrderStatus status;
 
     @ManyToOne

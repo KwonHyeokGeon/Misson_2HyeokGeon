@@ -11,6 +11,7 @@ public class Mall {
     private Long id;
     private String title;
     private String introduce;
+    @Enumerated(EnumType.STRING)
     private MallType mallType;
 
     @ManyToOne
