@@ -45,5 +45,9 @@ public class UserService {
         user.setProfileImage(userUpdateDto.getProfileImage());
     }
 
+    public void login() {
+
+    }
+
 
 }
