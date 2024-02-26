@@ -1,6 +1,7 @@
 package com.example.shopping.dto;
 
 import com.example.shopping.entity.*;
+import com.example.shopping.entity.enumeration.MallOrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

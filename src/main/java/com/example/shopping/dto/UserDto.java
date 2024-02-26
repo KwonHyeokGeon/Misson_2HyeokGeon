@@ -1,7 +1,7 @@
 package com.example.shopping.dto;
 
 import com.example.shopping.entity.User;
-import com.example.shopping.entity.UserAuth;
+import com.example.shopping.entity.enumeration.UserAuth;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

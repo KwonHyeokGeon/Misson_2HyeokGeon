@@ -1,4 +1,4 @@
-package com.example.shopping.entity;
+package com.example.shopping.entity.enumeration;
 
 public enum OfferStatus {
     AGREE,

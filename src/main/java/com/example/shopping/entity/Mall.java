@@ -1,5 +1,6 @@
 package com.example.shopping.entity;
 
+import com.example.shopping.entity.enumeration.MallType;
 import jakarta.persistence.*;
 import lombok.Getter;
 

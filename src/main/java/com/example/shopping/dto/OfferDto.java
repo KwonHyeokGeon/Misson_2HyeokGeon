@@ -1,7 +1,7 @@
 package com.example.shopping.dto;
 
 import com.example.shopping.entity.Offer;
-import com.example.shopping.entity.OfferStatus;
+import com.example.shopping.entity.enumeration.OfferStatus;
 import com.example.shopping.entity.UsedProduct;
 import com.example.shopping.entity.User;
 import lombok.AllArgsConstructor;
