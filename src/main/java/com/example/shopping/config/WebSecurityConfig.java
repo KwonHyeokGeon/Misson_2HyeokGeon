@@ -18,11 +18,16 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http
     ) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers(
                                         "/members/signup",
-                                        "members/signin")
+                                        "/members/signin",
+                                        "/members/{id}",
+                                        "/members/{id}/update",
+                                        "/members/{id}/profile",
+                                        "/members/{id}/business")
                                 .permitAll()
                 ).sessionManagement(
                         sessionManagement -> sessionManagement

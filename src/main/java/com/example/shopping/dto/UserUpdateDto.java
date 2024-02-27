@@ -15,4 +15,5 @@ public class UserUpdateDto {
     private String age;
     private String phone;
     private byte[] profileImage;
+    private String businessNum;
 }

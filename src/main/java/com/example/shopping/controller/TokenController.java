@@ -3,6 +3,7 @@ package com.example.shopping.controller;
 import com.example.shopping.dto.JwtDto;
 import com.example.shopping.dto.LoginDto;
 import com.example.shopping.jwt.JwtTokenUtils;
+import com.example.shopping.service.UserService;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,32 +21,13 @@ import org.springframework.web.server.ResponseStatusException;
 public class TokenController {
     // JWT를 발급하기 위한 Bean
     private final JwtTokenUtils jwtTokenUtils;
-    // 사용자 정보를 회수하기 위한 Bean
-    private final UserDetailsManager manager;
-    // 사용자가 제공한 아이디 비밀번호를 비교하기 위한 클래스
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
-    // POST /token/issue
     @PostMapping("/signin")
     public JwtDto issueJwt(
             @RequestBody LoginDto dto
     ) {
-        // 사용자가 제공한 username, password가 저장된 사용자인지
-        if (!manager.userExists(dto.getUserId()))
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        UserDetails userDetails
-                = manager.loadUserByUsername(dto.getUserId());
-        log.info(userDetails.toString());
-
-        if (!passwordEncoder
-                .matches(dto.getPassword(), userDetails.getPassword()))
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-
-        // JWT 발급
-        String jwt = jwtTokenUtils.generateToken(userDetails);
-        JwtDto response = new JwtDto();
-        response.setToken(jwt);
-        return response;
+       return userService.login(dto);
     }
 
     @GetMapping("/validate")

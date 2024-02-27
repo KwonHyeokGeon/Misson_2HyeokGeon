@@ -4,10 +4,15 @@ import com.example.shopping.dto.UserUpdateDto;
 import com.example.shopping.entity.enumeration.UserAuth;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 
 @Getter
 @Entity
 @Builder
+// 예약어 이슈 회피용
 @Table(name = "Users")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +35,9 @@ public class User {
     @Lob
     @Setter
     private byte[] profileImage;
+    @Setter
+    private String businessNum;
     @Enumerated(EnumType.STRING)
-    private UserAuth auth;
-
+    @Setter
+    private UserAuth auth = UserAuth.DEACTIVE;
 }

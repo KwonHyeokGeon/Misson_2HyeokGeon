@@ -2,10 +2,16 @@ package com.example.shopping.entity;
 
 import com.example.shopping.entity.enumeration.UsedProductStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsedProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +25,7 @@ public class UsedProduct {
     @Column(nullable = false)
     private int minPrice;
     @Enumerated(EnumType.STRING)
-    private UsedProductStatus status;
+    private UsedProductStatus status = UsedProductStatus.SALE;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
