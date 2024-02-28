@@ -1,5 +1,7 @@
 package com.example.shopping.config;
 
+import com.example.shopping.jwt.JwtTokenFilter;
+import com.example.shopping.jwt.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +16,7 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 @Configuration
 @RequiredArgsConstructor
 public class WebSecurityConfig {
+    private final JwtTokenUtils jwtTokenUtils;
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http
@@ -29,10 +32,15 @@ public class WebSecurityConfig {
                                         "/members/{id}/profile",
                                         "/members/{id}/business")
                                 .permitAll()
+                                .requestMatchers("/members/{id}")
+                                .authenticated()
                 ).sessionManagement(
                         sessionManagement -> sessionManagement
                                 .sessionCreationPolicy(
                                         SessionCreationPolicy.STATELESS)
+                ).addFilterBefore(
+                        new JwtTokenFilter(jwtTokenUtils),
+                        AuthorizationFilter.class
                 );
         return http.build();
     }

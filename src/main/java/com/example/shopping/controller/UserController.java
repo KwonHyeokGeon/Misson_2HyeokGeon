@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,6 +22,11 @@ import java.nio.file.Path;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    @GetMapping("/{id}")
+    public String testLogin(@PathVariable("id")Long id) {
+        return "done";
+    }
 
     @PostMapping("/signup")
     public ResponseEntity signUp(@RequestBody UserDto userDto) {

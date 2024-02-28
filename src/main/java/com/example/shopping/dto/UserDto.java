@@ -10,27 +10,27 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class UserDto {
-    private Long id;
+//    private Long id;
     private String userId;
     private String password;
-    private String name;
-    private String nickname;
-    private String age;
-    private String phone;
-    private byte[] profileImage;
-    private UserAuth auth;
+//    private String name;
+//    private String nickname;
+//    private String age;
+//    private String phone;
+//    private byte[] profileImage;
+//    private UserAuth auth;
 
     public static UserDto fromEntity(User user) {
         return UserDto.builder()
-                .id(user.getId())
+//                .id(user.getId())
                 .userId(user.getUserId())
                 .password(user.getPassword())
-                .name(user.getName())
-                .nickname(user.getNickname())
-                .age(user.getAge())
-                .phone(user.getPhone())
-                .profileImage(user.getProfileImage())
-                .auth(user.getAuth())
+//                .name(user.getName())
+//                .nickname(user.getNickname())
+//                .age(user.getAge())
+//                .phone(user.getPhone())
+//                .profileImage(user.getProfileImage())
+//                .auth(user.getAuth())
                 .build();
     }
 

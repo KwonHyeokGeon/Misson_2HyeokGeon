@@ -5,8 +5,10 @@ import com.example.shopping.dto.LoginDto;
 import com.example.shopping.dto.UserDto;
 import com.example.shopping.dto.UserUpdateDto;
 import com.example.shopping.entity.BusinessRegistration;
+import com.example.shopping.entity.CustomUserDetails;
 import com.example.shopping.entity.User;
 import com.example.shopping.entity.enumeration.UserAuth;
+import com.example.shopping.jwt.AuthenticationFacade;
 import com.example.shopping.jwt.JwtTokenUtils;
 import com.example.shopping.repository.BusinessRepository;
 import com.example.shopping.repository.UserRepository;
@@ -31,32 +33,34 @@ public class UserService {
     private final UserRepository userRepository;
     private final BusinessRepository businessRepository;
     private final UserDetailsManager manager;
+    private final JpaUserDetailsManager userDetailsManager;
     private final JwtTokenUtils jwtTokenUtils;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationFacade authenticationFacade;
 
 
     //회원가입 - 아이디와 비밀번호만 제공받아
     public void signUp(UserDto userDto) {
-        User build = User.builder()
+        CustomUserDetails userDetails = CustomUserDetails.builder()
                 .userId(userDto.getUserId())
                 .password(userDto.getPassword())
-                .auth(UserAuth.DEACTIVE)
                 .build();
-        userRepository.save(build);
+
+        userDetailsManager.createUser(userDetails);
     }
 
     public JwtDto login(LoginDto dto) {
-        UserDetails userDetails
-                = manager.loadUserByUsername(dto.getUserId());
-        if (!manager.userExists(dto.getUserId()))
+        String userId = dto.getUserId();
+        User user = userRepository.findByUserId(userId);
+        if (!userRepository.existsByUserId(userId))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 
         if (!passwordEncoder
-                .matches(dto.getPassword(), userDetails.getPassword()))
+                .matches(dto.getPassword(), user.getPassword()))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 
         // JWT 발급
-        String jwt = jwtTokenUtils.generateToken(userDetails);
+        String jwt = jwtTokenUtils.generateToken(dto);
         JwtDto response = new JwtDto();
         response.setToken(jwt);
         return response;
@@ -110,6 +114,7 @@ public class UserService {
     }
 
     // 사업자 사용자 신청 수락
+    @Transactional
     public void acceptBusinessRegistration(Long id, Long userId) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         if (!user.getAuth().equals(UserAuth.ADMIN)) {
@@ -122,6 +127,7 @@ public class UserService {
         byId.get().getUser().setAuth(UserAuth.BUSINESS);
     }
 
+    @Transactional
     public void declineBusinessRegistration(Long id, Long userId) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         if (!user.getAuth().equals(UserAuth.ADMIN)) {

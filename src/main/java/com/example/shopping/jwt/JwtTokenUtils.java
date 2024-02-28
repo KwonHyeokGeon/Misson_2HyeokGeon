@@ -1,5 +1,6 @@
 package com.example.shopping.jwt;
 
+import com.example.shopping.dto.LoginDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -29,18 +30,18 @@ public class JwtTokenUtils {
                 .build();
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(LoginDto dto) {
         // JWT에 담고싶은 정보를 Claims로 만든다.
 
         // 현재 호출되었을 때 epoch time
         Instant now = Instant.now();
         Claims jwtClaims = Jwts.claims()
                 // sub: 누구인지
-                .setSubject(userDetails.getUsername())
+                .setSubject(dto.getUserId())
                 // iat: 언제 발급 되었는지
                 .setIssuedAt(Date.from(now))
                 // exp: 언제 만료 예정인지
-                .setExpiration(Date.from(now.plusSeconds(60 * 60 * 24 * 7)));
+                .setExpiration(Date.from(now.plusSeconds(60 * 60 * 24)));
         // 최종적으로 JWT를 발급한다.
         return Jwts.builder()
                 .setClaims(jwtClaims)
