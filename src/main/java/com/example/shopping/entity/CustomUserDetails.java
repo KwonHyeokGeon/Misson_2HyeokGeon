@@ -16,8 +16,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private String userId;
     private String password;
 

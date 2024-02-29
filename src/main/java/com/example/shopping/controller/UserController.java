@@ -2,6 +2,7 @@ package com.example.shopping.controller;
 
 import com.example.shopping.dto.UserDto;
 import com.example.shopping.dto.UserUpdateDto;
+import com.example.shopping.entity.BusinessRegistration;
 import com.example.shopping.entity.User;
 import com.example.shopping.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +17,13 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-
-    @GetMapping("/{id}")
-    public String testLogin(@PathVariable("id")Long id) {
-        return "done";
-    }
 
     @PostMapping("/signup")
     public ResponseEntity signUp(@RequestBody UserDto userDto) {
@@ -36,33 +33,41 @@ public class UserController {
     }
 
     // 사용자 정보 추가
-    @PutMapping("/{id}/update")
-    public void update(@RequestBody UserUpdateDto dto, @PathVariable("id") Long id) {
-        userService.update(dto, id);
+    @PutMapping("/update")
+    public void update(@RequestBody UserUpdateDto dto) {
+        userService.update(dto);
     }
 
     // 사업자 사용자 신청
-    @PutMapping(value = "/{id}/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void profileUpdate(@RequestParam("image") MultipartFile multipartFile, @PathVariable("id") Long id) throws IOException {
+    @PutMapping(value = "/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void profileUpdate(@RequestParam("image") MultipartFile multipartFile) throws IOException {
         String filename = multipartFile.getOriginalFilename();
         Files.createDirectories(Path.of("media"));
         Path path = Path.of("media/" + filename);
         multipartFile.transferTo(path);
         byte[] fileBytes = multipartFile.getBytes();
-        userService.updateProfileImage(fileBytes, id);
+        userService.updateProfileImage(fileBytes);
     }
 
     // 사업자 사용자 신청
-    @PutMapping("/{id}/business")
-    public void businessRegister(@RequestBody UserUpdateDto dto, @PathVariable("id") Long id) {
-        userService.updateBusinessNum(dto, id);
+    @PutMapping("/business")
+    public void businessRegister(@RequestBody UserUpdateDto dto) {
+        userService.updateBusinessNum(dto);
     }
 
 
+    @GetMapping("/list")
+    public List<BusinessRegistration> readRegisterList() {
+        return userService.readBusinessRegistration();
+    }
 
+    @PutMapping("/list/{id}/approval")
+    public void acceptBusinessRegistration(@PathVariable("id")Long id) {
+        userService.acceptBusinessRegistration(id);
+    }
 
-/*    @PostMapping("/signin")
-    public ResponseEntity signIn() {
-
-    }*/
+    @PutMapping("/list/{id}/rejection")
+    public void declineBusinessRegistration(@PathVariable("id")Long id) {
+        userService.declineBusinessRegistration(id);
+    }
 }

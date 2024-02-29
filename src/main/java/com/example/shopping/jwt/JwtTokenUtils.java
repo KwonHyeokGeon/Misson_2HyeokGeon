@@ -41,7 +41,7 @@ public class JwtTokenUtils {
                 // iat: 언제 발급 되었는지
                 .setIssuedAt(Date.from(now))
                 // exp: 언제 만료 예정인지
-                .setExpiration(Date.from(now.plusSeconds(60 * 60 * 24)));
+                .setExpiration(Date.from(now.plusSeconds(60 * 60 * 10)));
         // 최종적으로 JWT를 발급한다.
         return Jwts.builder()
                 .setClaims(jwtClaims)

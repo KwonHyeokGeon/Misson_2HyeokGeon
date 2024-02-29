@@ -2,10 +2,7 @@ package com.example.shopping.entity;
 
 import com.example.shopping.entity.enumeration.UsedProductStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
@@ -17,14 +14,19 @@ public class UsedProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
+    @Setter
     private String title;
     @Column(nullable = false)
+    @Setter
     private String explanation;
     @Lob
+    @Setter
     private byte[] thumbnail;
     @Column(nullable = false)
+    @Setter
     private int minPrice;
     @Enumerated(EnumType.STRING)
+    @Setter
     private UsedProductStatus status = UsedProductStatus.SALE;
 
     @ManyToOne(fetch = FetchType.LAZY)

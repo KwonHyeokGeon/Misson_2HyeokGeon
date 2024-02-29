@@ -15,9 +15,7 @@ import com.example.shopping.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,21 +30,21 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final BusinessRepository businessRepository;
-    private final UserDetailsManager manager;
-    private final JpaUserDetailsManager userDetailsManager;
     private final JwtTokenUtils jwtTokenUtils;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationFacade authenticationFacade;
 
 
+
     //회원가입 - 아이디와 비밀번호만 제공받아
     public void signUp(UserDto userDto) {
-        CustomUserDetails userDetails = CustomUserDetails.builder()
+        User user = User.builder()
                 .userId(userDto.getUserId())
-                .password(userDto.getPassword())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .auth(UserAuth.DEACTIVE)
                 .build();
 
-        userDetailsManager.createUser(userDetails);
+        userRepository.save(user);
     }
 
     public JwtDto login(LoginDto dto) {
@@ -68,8 +66,8 @@ public class UserService {
 
     // 회원정보 업데이트
     @Transactional
-    public void update(UserUpdateDto dto, Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public void update(UserUpdateDto dto) {
+        User user = authenticationFacade.getLoginUser();
         // 필수 정보 입력 후 일반사용자로 자동 전환
         user.setName(dto.getName());
         user.setAge(dto.getAge());
@@ -81,16 +79,17 @@ public class UserService {
 
     // 프로필 사진 업데이트
     @Transactional
-    public void updateProfileImage(byte[] filebytes, Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public void updateProfileImage(byte[] filebytes) {
+        User user = authenticationFacade.getLoginUser();
+
         user.setProfileImage(filebytes);
     }
 
 
     // 사업자 사용자 신청
     @Transactional
-    public void updateBusinessNum(UserUpdateDto dto, Long id) {
-        User findUser = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public void updateBusinessNum(UserUpdateDto dto) {
+        User findUser = authenticationFacade.getLoginUser();
         // 일반 사용자 일때
         if (!findUser.getAuth().equals(UserAuth.NORMAL)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
@@ -104,9 +103,9 @@ public class UserService {
     }
 
     // 사업자 사용자 신청 목록
-    public List<BusinessRegistration> readBusinessRegistration(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        if (!user.getAuth().equals(UserAuth.ADMIN)) {
+    public List<BusinessRegistration> readBusinessRegistration() {
+        User findUser = authenticationFacade.getLoginUser();
+        if (!findUser.getAuth().equals(UserAuth.ADMIN)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
@@ -115,8 +114,8 @@ public class UserService {
 
     // 사업자 사용자 신청 수락
     @Transactional
-    public void acceptBusinessRegistration(Long id, Long userId) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public void acceptBusinessRegistration(Long userId) {
+        User user = authenticationFacade.getLoginUser();
         if (!user.getAuth().equals(UserAuth.ADMIN)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
@@ -128,18 +127,16 @@ public class UserService {
     }
 
     @Transactional
-    public void declineBusinessRegistration(Long id, Long userId) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public void declineBusinessRegistration(Long id) {
+        User user = authenticationFacade.getLoginUser();
         if (!user.getAuth().equals(UserAuth.ADMIN)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        Optional<BusinessRegistration> byId = businessRepository.findById(userId);
+        Optional<BusinessRegistration> byId = businessRepository.findById(id);
         if (byId.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        businessRepository.deleteById(userId);
+        businessRepository.deleteById(id);
     }
 
-//    public UserDto updateUserAvatar(Long id, MultipartFile multipartFile) {
-//    }
 }

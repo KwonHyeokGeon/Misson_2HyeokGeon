@@ -17,6 +17,7 @@ import org.springframework.security.web.access.intercept.AuthorizationFilter;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private final JwtTokenUtils jwtTokenUtils;
+
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http
@@ -26,13 +27,17 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth.requestMatchers(
                                         "/members/signup",
-                                        "/members/signin",
-                                        "/members/{id}",
-                                        "/members/{id}/update",
-                                        "/members/{id}/profile",
-                                        "/members/{id}/business")
-                                .permitAll()
-                                .requestMatchers("/members/{id}")
+                                        "/members/signin"
+                                        )
+                                .anonymous()
+                                .requestMatchers(
+                                        "/members/profile",
+                                        "/members/update",
+                                        "/members/business",
+                                        "/members/list",
+                                        "/members/list/{id}/approval",
+                                        "/members/list/{id}/rejection",
+                                        "/products/new")
                                 .authenticated()
                 ).sessionManagement(
                         sessionManagement -> sessionManagement
