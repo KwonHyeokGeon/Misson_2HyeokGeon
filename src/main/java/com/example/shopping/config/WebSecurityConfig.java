@@ -34,10 +34,11 @@ public class WebSecurityConfig {
                                         "/members/profile",
                                         "/members/update",
                                         "/members/business",
-                                        "/members/list",
-                                        "/members/list/{id}/approval",
-                                        "/members/list/{id}/rejection",
-                                        "/products/new")
+                                        "/members/lists",
+                                        "/members/lists/{id}/approval",
+                                        "/members/lists/{id}/rejection",
+                                        "/products/new",
+                                        "/products/{id}")
                                 .authenticated()
                 ).sessionManagement(
                         sessionManagement -> sessionManagement

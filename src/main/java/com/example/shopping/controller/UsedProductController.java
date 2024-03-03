@@ -33,8 +33,20 @@ public class UsedProductController {
 //        usedProductService.register(dto, fileBytes);
 //    }
 
-    @GetMapping("/list")
+    @GetMapping("/lists")
     public List<UsedProduct> readAll() {
         return usedProductService.readAll();
     }
+
+    @PutMapping("/{id}")
+    public void updateUsedProduct(@PathVariable("id") Long id, UsedProductDto dto) {
+        usedProductService.updateUsedProduct(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUsedProduct(@PathVariable("id") Long id) {
+        usedProductService.deleteUsedProduct(id);
+    }
+
+
 }

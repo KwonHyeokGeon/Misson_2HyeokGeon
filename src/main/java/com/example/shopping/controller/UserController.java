@@ -56,17 +56,17 @@ public class UserController {
     }
 
 
-    @GetMapping("/list")
+    @GetMapping("/lists")
     public List<BusinessRegistration> readRegisterList() {
         return userService.readBusinessRegistration();
     }
 
-    @PutMapping("/list/{id}/approval")
+    @PutMapping("/lists/{id}")
     public void acceptBusinessRegistration(@PathVariable("id")Long id) {
         userService.acceptBusinessRegistration(id);
     }
 
-    @PutMapping("/list/{id}/rejection")
+    @DeleteMapping("/lists/{id}")
     public void declineBusinessRegistration(@PathVariable("id")Long id) {
         userService.declineBusinessRegistration(id);
     }

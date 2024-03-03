@@ -22,7 +22,7 @@ import java.util.Optional;
 public class UsedProductService {
     private final UsedProductRepository usedProductRepository;
     private final AuthenticationFacade authenticationFacade;
-
+    @Transactional
     public void register(UsedProductDto dto) {
         User loginUser = authenticationFacade.getLoginUser();
         if (!loginUser.getAuth().equals(UserAuth.NORMAL)) {
@@ -39,7 +39,7 @@ public class UsedProductService {
                 .build();
         usedProductRepository.save(usedProduct);
     }
-
+    // Content-type 달라서 요청 2개 만들 지 고민 중
 //    public void register(UsedProductDto dto, byte[] fileBytes) {
 //        User loginUser = authenticationFacade.getLoginUser();
 //        if (!loginUser.getAuth().equals(UserAuth.NORMAL)) {
@@ -65,6 +65,7 @@ public class UsedProductService {
         return usedProductRepository.findAll();
     }
 
+    @Transactional
     public void updateUsedProduct(Long id, UsedProductDto dto) {
         Optional<UsedProduct> byId = usedProductRepository.findById(id);
         if (byId.isEmpty()) {
@@ -80,6 +81,37 @@ public class UsedProductService {
         usedProduct.setTitle(dto.getTitle());
         usedProduct.setExplanation(dto.getExplanation());
         usedProduct.setMinPrice(dto.getMinPrice());
+    }
+
+    @Transactional
+    public void deleteUsedProduct(Long id) {
+        Optional<UsedProduct> byId = usedProductRepository.findById(id);
+        if (byId.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        User user = byId.get().getUser();
+        User loginUser = authenticationFacade.getLoginUser();
+
+        if (!user.equals(loginUser)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        usedProductRepository.deleteById(id);
+    }
+
+    public void productProposal(Long id) {
+        // 로그인한 사용자
+        User loginUser = authenticationFacade.getLoginUser();
+        // 저장된 중고상품
+        Optional<UsedProduct> byId = usedProductRepository.findById(id);
+        // 중고상품 확인
+        if (byId.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        // 중고상품등록한 사용자
+        User user = byId.get().getUser();
+        // 로그인한 사람이 등록한 사용자 인지 아닌지
+        if (loginUser.getAuth().equals(UserAuth.DEACTIVE) || user.equals(loginUser))
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
 
     }
 }

@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Mall {
+public class MallRegistration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,6 +26,5 @@ public class Mall {
     private MallStatus mallStatus;
 
     @OneToOne
-    @Setter
     private User user;
 }

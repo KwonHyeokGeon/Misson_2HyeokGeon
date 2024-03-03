@@ -6,9 +6,9 @@ import lombok.Getter;
 public enum MallType {
     CLOTHES("의류"),
     FOOD("식품"),
-    ELECTRONICS("전자제품")
-
-    ;
+    ELECTRONICS("전자제품"),
+    FURNITURE("가구"),
+    GAME("게임");
 
     private final String displayValue;
 
