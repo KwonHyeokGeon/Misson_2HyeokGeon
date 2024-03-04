@@ -1,5 +1,6 @@
 package com.example.shopping.entity;
 
+import com.example.shopping.entity.enumeration.ProposalStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,5 +20,8 @@ public class UsedProductProposal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    private String proposal;
+    private ProposalStatus proposalStatus;
 }
+
+

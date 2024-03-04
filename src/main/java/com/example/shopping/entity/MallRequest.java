@@ -1,6 +1,5 @@
 package com.example.shopping.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,24 +8,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class MallProduct {
+public class MallRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Setter
-    private String name;
-    @Lob
-    @Setter
-    private byte[] image;
+    private String title;
     @Setter
     private String explanation;
-    @Setter
-    private int price;
-    @Setter
-    private int stock;
 
-
-    @ManyToOne
-    private Mall mall;
+    @OneToOne
+    private User user;
 
 }

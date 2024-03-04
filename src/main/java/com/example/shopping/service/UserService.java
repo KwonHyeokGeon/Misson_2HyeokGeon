@@ -10,7 +10,6 @@ import com.example.shopping.entity.enumeration.UserAuth;
 import com.example.shopping.jwt.AuthenticationFacade;
 import com.example.shopping.jwt.JwtTokenUtils;
 import com.example.shopping.repository.BusinessRepository;
-import com.example.shopping.repository.MallRegisterRepository;
 import com.example.shopping.repository.MallRepository;
 import com.example.shopping.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,7 @@ public class UserService {
     private final JwtTokenUtils jwtTokenUtils;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationFacade authenticationFacade;
-    private final MallRegisterRepository mallRegisterRepository;
+    private final MallRepository mallRepository;
 
 
 
@@ -116,21 +115,23 @@ public class UserService {
 
     // 사업자 사용자 신청 수락
     @Transactional
-    public void acceptBusinessRegistration(Long userId) {
+    public void acceptBusinessRegistration(Long id) {
+
         User user = authenticationFacade.getLoginUser();
         if (!user.getAuth().equals(UserAuth.ADMIN)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        Optional<BusinessRegistration> byId = businessRepository.findById(userId);
+        Optional<BusinessRegistration> byId = businessRepository.findById(id);
         if (byId.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+
         User user1 = byId.get().getUser();
         user1.setAuth(UserAuth.BUSINESS);
         // 준비 중 상태의 쇼핑몰 추가
-        MallRegistration build = MallRegistration.builder().mallStatus(MallStatus.PREPARING).user(user1).build();
+        Mall build = Mall.builder().mallStatus(MallStatus.PREPARING).user(user1).build();
 
-        mallRegisterRepository.save(build);
+        mallRepository.save(build);
 
     }
 

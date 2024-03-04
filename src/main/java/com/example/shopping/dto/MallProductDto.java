@@ -3,6 +3,7 @@ package com.example.shopping.dto;
 import com.example.shopping.entity.Mall;
 import com.example.shopping.entity.MallProduct;
 import com.example.shopping.entity.User;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,8 +18,8 @@ public class MallProductDto {
     private String explanation;
     private int price;
     private int stock;
-    private User user;
     private Mall mall;
+
 
     public static MallProductDto fromEntity(MallProduct product) {
         return MallProductDto.builder()
@@ -28,7 +29,6 @@ public class MallProductDto {
                 .explanation(product.getExplanation())
                 .price(product.getPrice())
                 .stock(product.getStock())
-                .user(product.getUser())
                 .mall(product.getMall())
                 .build();
     }

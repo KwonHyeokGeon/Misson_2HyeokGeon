@@ -112,6 +112,5 @@ public class UsedProductService {
         if (loginUser.getAuth().equals(UserAuth.DEACTIVE) || user.equals(loginUser))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 
-
     }
 }

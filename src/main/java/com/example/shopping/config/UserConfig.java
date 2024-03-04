@@ -19,7 +19,7 @@ public class UserConfig {
     public void adminUser() {
         User admin = User.builder()
                 .userId("admin")
-                .password(passwordEncoder.encode("11111111"))
+                .password(passwordEncoder.encode("1111"))
                 .auth(UserAuth.ADMIN)
                 .build();
         userRepository.save(admin);
@@ -35,6 +35,20 @@ public class UserConfig {
                 .name("hikari")
                 .auth(UserAuth.NORMAL)
                 .nickname("hikari")
+                .build();
+        userRepository.save(user);
+    }
+
+    @PostConstruct
+    public void businessUser() {
+        User user = User.builder()
+                .userId("testUser2")
+                .password(passwordEncoder.encode("1111"))
+                .age("20")
+                .phone("1234")
+                .name("business")
+                .auth(UserAuth.BUSINESS)
+                .nickname("business")
                 .build();
         userRepository.save(user);
     }

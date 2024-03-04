@@ -19,3 +19,8 @@ spring:
 
 jwt:
   secret: 8f1c31e4e0f85323df6588db01c11643e9764e8591353c0b8f13861e53f281bf
+
+ncp:
+  api:
+    client-id: js1z8pc8ty
+    client-secret: w27wpkEtbDMtlaU8zdz3Sb4NANCOjvVYNPYWGhfG
