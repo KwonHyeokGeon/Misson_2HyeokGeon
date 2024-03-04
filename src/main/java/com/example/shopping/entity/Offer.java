@@ -1,20 +1,22 @@
 package com.example.shopping.entity;
 
 import com.example.shopping.entity.enumeration.OfferStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import lombok.Getter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Offer {
     @Id
     @GeneratedValue
     private Long id;
     private String title;
     private String content;
+    @Enumerated(EnumType.STRING)
+    @Setter
     private OfferStatus status;
 
     @ManyToOne

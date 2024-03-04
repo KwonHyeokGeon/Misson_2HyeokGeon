@@ -2,17 +2,23 @@ package com.example.shopping.entity;
 
 import com.example.shopping.entity.enumeration.MallOrderStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class MallOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int stock;
+    private int count;
     private int price;
     private LocalDateTime paymentTime;
     @Enumerated(EnumType.STRING)
@@ -26,4 +32,9 @@ public class MallOrder {
 
     @ManyToOne
     private MallProduct mallProduct;
+
+    public void accept() {
+        this.status = MallOrderStatus.COMPLETE;
+        this.mallProduct.setStock(this.count);
+    }
 }

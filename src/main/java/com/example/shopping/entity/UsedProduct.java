@@ -4,6 +4,8 @@ import com.example.shopping.entity.enumeration.UsedProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Builder
 @Entity
@@ -31,4 +33,7 @@ public class UsedProduct {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @OneToMany(mappedBy = "usedProduct")
+    private List<Offer> offerList;
 }

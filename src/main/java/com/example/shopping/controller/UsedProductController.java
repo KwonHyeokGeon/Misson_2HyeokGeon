@@ -1,16 +1,16 @@
 package com.example.shopping.controller;
 
+import com.example.shopping.dto.OfferCreateRequest;
 import com.example.shopping.dto.UsedProductDto;
+import com.example.shopping.entity.Offer;
 import com.example.shopping.entity.UsedProduct;
 import com.example.shopping.service.UsedProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -48,5 +48,33 @@ public class UsedProductController {
         usedProductService.deleteUsedProduct(id);
     }
 
+    @PostMapping("/offers")
+    public void offerProduct(
+            @Validated @RequestBody OfferCreateRequest req
+    ) {
+        usedProductService.productProposal(req);
+    }
 
+    @PatchMapping("/offers/{id}/accept")
+    public void offerAccept(@PathVariable("id") Long id) {
+        usedProductService.offerAccept(id);
+    }
+
+    @PatchMapping("/offers/{id}/decline")
+    public void offerDecline(@PathVariable("id") Long id) {
+        usedProductService.offerDecline(id);
+    }
+
+    @PatchMapping("/offers/{id}/complete")
+    public void offerComplete(@PathVariable("id") Long id) {
+        usedProductService.offerComplete(id);
+    }
+
+    @GetMapping("/offers")
+    public ResponseEntity<List<Offer>> readOfferAll() {
+        List<Offer> offers = usedProductService.readOffer();
+        ResponseEntity<List<Offer>> response = ResponseEntity.status(HttpStatus.OK).body(offers);
+        return response;
+    }
 }
+

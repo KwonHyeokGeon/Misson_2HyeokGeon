@@ -1,17 +1,13 @@
 package com.example.shopping.service;
 
-import com.example.shopping.dto.MallOrderDto;
-import com.example.shopping.dto.MallProductDto;
-import com.example.shopping.dto.MallRequestDto;
-import com.example.shopping.dto.MallUpdateDto;
-import com.example.shopping.entity.Mall;
-import com.example.shopping.entity.MallProduct;
-import com.example.shopping.entity.MallRequest;
-import com.example.shopping.entity.User;
+import com.example.shopping.dto.*;
+import com.example.shopping.entity.*;
+import com.example.shopping.entity.enumeration.MallOrderStatus;
 import com.example.shopping.entity.enumeration.MallStatus;
 import com.example.shopping.entity.enumeration.MallType;
 import com.example.shopping.entity.enumeration.UserAuth;
 import com.example.shopping.jwt.AuthenticationFacade;
+import com.example.shopping.repository.MallOrderRepository;
 import com.example.shopping.repository.MallProductRepository;
 import com.example.shopping.repository.MallRejectionRepository;
 import com.example.shopping.repository.MallRepository;
@@ -21,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +29,7 @@ public class MallService {
     private final MallRejectionRepository mallRejectionRepository;
     private final AuthenticationFacade authenticationFacade;
     private final MallProductRepository mallProductRepository;
+    private final MallOrderRepository mallOrderRepository;
 
     @Transactional
     public void updateMall(Long id, MallUpdateDto dto) {
@@ -165,10 +163,52 @@ public class MallService {
         return mallProductRepository.findByPriceBetweenOrNameIgnoreCase(minPrice, maxPrice, name);
     }
 
-    public void orderProduct(MallOrderDto dto) {
+
+    @Transactional
+    public void orderProduct(MallOrderRequest req) {
         User loginUser = authenticationFacade.getLoginUser();
         if (loginUser.getAuth().equals(UserAuth.DEACTIVE)) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 
+        Long mallProductId = req.getMallProductId();
+        Optional<MallProduct> byId = mallProductRepository.findById(mallProductId);
+        if (byId.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
+        MallProduct mallProduct = byId.get();
+
+        MallOrder createTarget = MallOrder.builder()
+                .count(req.getCount())
+                .price(mallProduct.getPrice())
+                .paymentTime(LocalDateTime.now())
+                .status(MallOrderStatus.STANDBY)
+                .user(loginUser)
+                .mall(mallProduct.getMall())
+                .mallProduct(mallProduct)
+                .build();
+        mallOrderRepository.save(createTarget);
+    }
+
+    @Transactional
+    public void declineOrder(MallOrderAcceptDeclineRequest req) {
+        User loginUser = authenticationFacade.getLoginUser();
+        Long mallOrderId = req.getMallOrderId();
+        Optional<MallOrder> byId = mallOrderRepository.findById(mallOrderId);
+        if (byId.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        MallOrder mallOrder = byId.get();
+        MallOrderStatus status = mallOrder.getStatus();
+        if (MallOrderStatus.COMPLETE == status) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        mallOrderRepository.delete(mallOrder);
+    }
+
+    @Transactional
+    public void acceptOrder(MallOrderAcceptDeclineRequest req) {
+        User loginUser = authenticationFacade.getLoginUser();
+        Long mallOrderId = req.getMallOrderId();
+        Optional<MallOrder> byId = mallOrderRepository.findById(mallOrderId);
+        if (byId.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        MallOrder mallOrder = byId.get();
+        Mall mall = mallOrder.getMall();
+        User user = mall.getUser();
+        if (!loginUser.equals(user)) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        mallOrder.accept();
     }
 }

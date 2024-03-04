@@ -1,8 +1,6 @@
 package com.example.shopping.controller;
 
-import com.example.shopping.dto.MallProductDto;
-import com.example.shopping.dto.MallRequestDto;
-import com.example.shopping.dto.MallUpdateDto;
+import com.example.shopping.dto.*;
 import com.example.shopping.entity.Mall;
 import com.example.shopping.entity.MallProduct;
 import com.example.shopping.entity.enumeration.MallType;
@@ -10,6 +8,7 @@ import com.example.shopping.service.MallService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -89,5 +88,26 @@ public class MallController {
     ) {
         List<MallProduct> allByPriceRangeOrName = mallService.findAllByPriceRangeOrName(minPrice, maxPrice, name);
         return ResponseEntity.status(HttpStatus.OK).body(allByPriceRangeOrName);
+    }
+
+    @PostMapping("/mall-orders")
+    public void orderProduct(
+            @Validated @RequestBody MallOrderRequest req
+    ) {
+        mallService.orderProduct(req);
+    }
+
+    @PatchMapping("/mall-orders/accept")
+    public void acceptOrder(
+            @Validated @RequestBody MallOrderAcceptDeclineRequest req
+    ) {
+        mallService.acceptOrder(req);
+    }
+
+    @DeleteMapping("/mall-orders/decline")
+    public void declineOrder(
+            @Validated @RequestBody MallOrderAcceptDeclineRequest req
+    ) {
+        mallService.declineOrder(req);
     }
 }

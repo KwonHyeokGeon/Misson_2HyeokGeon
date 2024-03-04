@@ -20,18 +20,4 @@ public class MallOrderDto {
     private User user;
     private Mall mall;
     private MallProduct mallProduct;
-
-    public static MallOrderDto fromEntity(MallOrder mallOrder) {
-        return MallOrderDto.builder()
-                .id(mallOrder.getId())
-                .stock(mallOrder.getStock())
-                .price(mallOrder.getPrice())
-                .paymentTime(mallOrder.getPaymentTime())
-                .status(mallOrder.getStatus())
-                .user(mallOrder.getUser())
-                .mall(mallOrder.getMall())
-                .mallProduct(mallOrder.getMallProduct())
-                .build();
-
-    }
 }
