@@ -1,8 +1,8 @@
 package com.example.shopping.config;
 
-import com.example.shopping.entity.User;
-import com.example.shopping.entity.enumeration.UserAuth;
-import com.example.shopping.repository.UserRepository;
+import com.example.shopping.user.entity.User;
+import com.example.shopping.user.entity.enumeration.UserAuth;
+import com.example.shopping.user.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

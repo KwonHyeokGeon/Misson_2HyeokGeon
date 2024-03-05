@@ -1,8 +1,8 @@
 package com.example.shopping.jwt;
 
-import com.example.shopping.entity.CustomUserDetails;
-import com.example.shopping.entity.User;
-import com.example.shopping.repository.UserRepository;
+import com.example.shopping.jwt.entity.CustomUserDetails;
+import com.example.shopping.user.entity.User;
+import com.example.shopping.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
