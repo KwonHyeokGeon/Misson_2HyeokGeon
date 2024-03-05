@@ -9,6 +9,7 @@ import com.example.shopping.entity.enumeration.MallStatus;
 import com.example.shopping.entity.enumeration.UserAuth;
 import com.example.shopping.jwt.AuthenticationFacade;
 import com.example.shopping.jwt.JwtTokenUtils;
+import com.example.shopping.ncp.CaptchaService;
 import com.example.shopping.repository.BusinessRepository;
 import com.example.shopping.repository.MallRepository;
 import com.example.shopping.repository.UserRepository;
@@ -34,6 +35,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationFacade authenticationFacade;
     private final MallRepository mallRepository;
+    private final CaptchaService captchaService;
 
 
 
@@ -57,6 +59,13 @@ public class UserService {
         if (!passwordEncoder
                 .matches(dto.getPassword(), user.getPassword()))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
+//        if (UserAuth.BUSINESS.equals(user.getAuth()) || UserAuth.ADMIN.equals(user.getAuth())) {
+//            String string = captchaService.requestCaptchaKey();
+//            captchaService.captchaImage(string);
+//            boolean b = captchaService.verifyCaptcha(string, dto.getUserValue());
+//            if (!b) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
 
         // JWT 발급
         String jwt = jwtTokenUtils.generateToken(dto);

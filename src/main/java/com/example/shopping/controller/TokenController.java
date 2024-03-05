@@ -8,9 +8,6 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,7 +24,7 @@ public class TokenController {
     public JwtDto issueJwt(
             @RequestBody LoginDto dto
     ) {
-       return userService.login(dto);
+        return userService.login(dto);
     }
 
     @GetMapping("/validate")

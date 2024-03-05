@@ -65,7 +65,7 @@ public class MallController {
         return ResponseEntity.status(HttpStatus.OK).body(malls);
     }
 
-    @GetMapping
+    @GetMapping("/search")
     public ResponseEntity<List<Mall>> readByTitleOrMallType(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) MallType mallType
@@ -74,13 +74,13 @@ public class MallController {
         return ResponseEntity.status(HttpStatus.OK).body(malls);
     }
 
-    @GetMapping("/product")
+    @GetMapping("/products")
     public ResponseEntity<List<MallProduct>> readProduct() {
         List<MallProduct> mallProducts = mallService.readProduct();
         return ResponseEntity.status(HttpStatus.OK).body(mallProducts);
     }
 
-    @GetMapping("/product")
+    @GetMapping("/products/search")
     public ResponseEntity<List<MallProduct>> readProductByPriceRangeOrName(
             @RequestParam(required = false) int minPrice,
             @RequestParam(required = false) int maxPrice,

@@ -1,8 +1,7 @@
 package com.example.shopping.dto;
 
-import com.example.shopping.entity.UsedProduct;
-import com.example.shopping.entity.enumeration.UsedProductStatus;
 import com.example.shopping.entity.User;
+import com.example.shopping.entity.enumeration.UsedProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,15 +18,4 @@ public class UsedProductDto {
     private UsedProductStatus status;
     private User user;
 
-    public static UsedProductDto fromEntity(UsedProduct product) {
-        return UsedProductDto.builder()
-                .id(product.getId())
-                .title(product.getTitle())
-                .explanation(product.getExplanation())
-                .thumbnail(product.getThumbnail())
-                .minPrice(product.getMinPrice())
-                .status(product.getStatus())
-                .user(product.getUser())
-                .build();
-    }
 }

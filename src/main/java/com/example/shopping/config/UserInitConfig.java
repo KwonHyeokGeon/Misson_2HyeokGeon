@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
-public class UserConfig {
+public class UserInitConfig {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -25,9 +25,10 @@ public class UserConfig {
         userRepository.save(admin);
     }
 
+
     @PostConstruct
     public void normalUser() {
-        User user = User.builder()
+        User user1 = User.builder()
                 .userId("testUser")
                 .password(passwordEncoder.encode("1111"))
                 .age("20")
@@ -36,15 +37,27 @@ public class UserConfig {
                 .auth(UserAuth.NORMAL)
                 .nickname("hikari")
                 .build();
-        userRepository.save(user);
+
+        User user2 = User.builder()
+                .userId("normalUser")
+                .password(passwordEncoder.encode("1111"))
+                .age("20")
+                .phone("1234")
+                .name("hikari")
+                .auth(UserAuth.NORMAL)
+                .nickname("hikari")
+                .build();
+        userRepository.save(user1);
+        userRepository.save(user2);
     }
+
 
     @PostConstruct
     public void businessUser() {
         User user = User.builder()
                 .userId("testUser2")
                 .password(passwordEncoder.encode("1111"))
-                .age("20")
+                .age("25")
                 .phone("1234")
                 .name("business")
                 .auth(UserAuth.BUSINESS)

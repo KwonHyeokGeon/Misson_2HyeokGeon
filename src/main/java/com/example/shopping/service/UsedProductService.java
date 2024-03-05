@@ -46,7 +46,7 @@ public class UsedProductService {
                 .build();
         usedProductRepository.save(usedProduct);
     }
-    // Content-type 달라서 요청 2개 만들 지 고민 중
+    // Content-type 달라서 요청 2개 만들 지
 //    public void register(UsedProductDto dto, byte[] fileBytes) {
 //        User loginUser = authenticationFacade.getLoginUser();
 //        if (!loginUser.getAuth().equals(UserAuth.NORMAL)) {
@@ -85,6 +85,8 @@ public class UsedProductService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
+        int minPrice = dto.getMinPrice();
+        System.out.println(minPrice);
         usedProduct.setTitle(dto.getTitle());
         usedProduct.setExplanation(dto.getExplanation());
         usedProduct.setMinPrice(dto.getMinPrice());

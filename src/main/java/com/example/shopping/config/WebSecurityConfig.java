@@ -31,14 +31,15 @@ public class WebSecurityConfig {
                                         )
                                 .anonymous()
                                 .requestMatchers(
-                                        "/members/profile",
-                                        "/members/update",
-                                        "/members/business",
-                                        "/members/lists",
-                                        "/members/lists/{id}",
-                                        "/products/new",
-                                        "/products/{id}",
-                                        "/mall/{id}/update")
+                                        "/members/*",
+                                        "/members/lists/*",
+                                        "/mall/*",
+                                        "/mall/products/*",
+                                        "/mall/mall-orders/*",
+                                        "/mall/{id}/*",
+                                        "/mall/{id}/*/*",
+                                        "/products/*",
+                                        "/products//offers/{id}/*")
                                 .authenticated()
                 ).sessionManagement(
                         sessionManagement -> sessionManagement
