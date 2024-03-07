@@ -8,7 +8,7 @@ import com.example.shopping.user.entity.User;
 import com.example.shopping.usedProduct.entity.enumeration.OfferStatus;
 import com.example.shopping.usedProduct.entity.enumeration.UsedProductStatus;
 import com.example.shopping.user.entity.enumeration.UserAuth;
-import com.example.shopping.jwt.AuthenticationFacade;
+import com.example.shopping.common.jwt.AuthenticationFacade;
 import com.example.shopping.usedProduct.repository.OfferRepository;
 import com.example.shopping.usedProduct.repository.UsedProductRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.example.shopping.jwt;
+package com.example.shopping.common.jwt;
 
-import com.example.shopping.jwt.dto.LoginDto;
+import com.example.shopping.common.jwt.dto.LoginDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;

@@ -1,4 +1,4 @@
-package com.example.shopping.jwt.dto;
+package com.example.shopping.common.jwt.dto;
 
 import lombok.*;
 

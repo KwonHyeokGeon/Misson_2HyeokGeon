@@ -1,4 +1,4 @@
-package com.example.shopping.jwt.entity;
+package com.example.shopping.common.jwt.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

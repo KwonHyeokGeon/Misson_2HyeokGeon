@@ -1,6 +1,6 @@
-package com.example.shopping.jwt;
+package com.example.shopping.common.jwt;
 
-import com.example.shopping.jwt.entity.CustomUserDetails;
+import com.example.shopping.common.jwt.entity.CustomUserDetails;
 import com.example.shopping.user.entity.User;
 import com.example.shopping.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

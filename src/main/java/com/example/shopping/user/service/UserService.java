@@ -1,15 +1,15 @@
 package com.example.shopping.user.service;
 
-import com.example.shopping.jwt.dto.JwtDto;
-import com.example.shopping.jwt.dto.LoginDto;
+import com.example.shopping.common.jwt.dto.JwtDto;
+import com.example.shopping.common.jwt.dto.LoginDto;
 import com.example.shopping.user.dto.UserDto;
 import com.example.shopping.user.dto.UserUpdateDto;
 import com.example.shopping.mall.entity.enumeration.MallStatus;
 import com.example.shopping.user.entity.enumeration.UserAuth;
-import com.example.shopping.jwt.AuthenticationFacade;
-import com.example.shopping.jwt.JwtTokenUtils;
+import com.example.shopping.common.jwt.AuthenticationFacade;
+import com.example.shopping.common.jwt.JwtTokenUtils;
 import com.example.shopping.mall.entity.Mall;
-import com.example.shopping.ncp.CaptchaService;
+import com.example.shopping.common.ncp.CaptchaService;
 import com.example.shopping.user.repository.BusinessRepository;
 import com.example.shopping.mall.repository.MallRepository;
 import com.example.shopping.user.repository.UserRepository;

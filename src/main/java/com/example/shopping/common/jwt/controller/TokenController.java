@@ -1,8 +1,8 @@
-package com.example.shopping.jwt.controller;
+package com.example.shopping.common.jwt.controller;
 
-import com.example.shopping.jwt.dto.JwtDto;
-import com.example.shopping.jwt.dto.LoginDto;
-import com.example.shopping.jwt.JwtTokenUtils;
+import com.example.shopping.common.jwt.JwtTokenUtils;
+import com.example.shopping.common.jwt.dto.JwtDto;
+import com.example.shopping.common.jwt.dto.LoginDto;
 import com.example.shopping.user.service.UserService;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

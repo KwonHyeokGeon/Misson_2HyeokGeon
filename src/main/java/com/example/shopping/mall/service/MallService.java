@@ -5,7 +5,7 @@ import com.example.shopping.mall.entity.enumeration.MallOrderStatus;
 import com.example.shopping.mall.entity.enumeration.MallStatus;
 import com.example.shopping.mall.entity.enumeration.MallType;
 import com.example.shopping.user.entity.enumeration.UserAuth;
-import com.example.shopping.jwt.AuthenticationFacade;
+import com.example.shopping.common.jwt.AuthenticationFacade;
 import com.example.shopping.mall.entity.Mall;
 import com.example.shopping.mall.entity.MallOrder;
 import com.example.shopping.mall.entity.MallProduct;
