@@ -3,7 +3,7 @@ package com.example.shopping.common.jwt.controller;
 import com.example.shopping.common.jwt.JwtTokenUtils;
 import com.example.shopping.common.jwt.dto.JwtDto;
 import com.example.shopping.common.jwt.dto.LoginDto;
-import com.example.shopping.user.service.UserService;
+import com.example.shopping.domain.user.service.UserService;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
